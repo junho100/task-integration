@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class GetBoardAndGroupResponse {
+public class GetBoardAndGroupRes {
     @Getter
     @Setter
     @Builder

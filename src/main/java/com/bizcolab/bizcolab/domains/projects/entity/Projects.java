@@ -31,9 +31,6 @@ public class Projects {
     @Column
     private String name;
 
-    @Column(columnDefinition = "text")
-    private String updateHash;
-
     @ManyToOne
     @JoinColumn(name = "task_integration_configuration_id")
     private TaskIntegrationConfigurations configuration;

@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,9 +33,6 @@ public class Items {
     @Column
     private String name;
 
-    @Column(columnDefinition = "text")
-    private String updateHash;
-
     @ManyToOne
     @JoinColumn(name = "task_integration_configuration_id")
     private TaskIntegrationConfigurations configuration;
@@ -46,4 +44,13 @@ public class Items {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Groups group;
+
+    @Builder
+    public Items (ToolType toolType, String name, Groups group, Projects project, TaskIntegrationConfigurations taskIntegrationConfiguration) {
+        this.toolType = toolType;
+        this.name = name;
+        this.project = project;
+        this.group = group;
+        this.configuration = taskIntegrationConfiguration;
+    }
 }
