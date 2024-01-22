@@ -36,4 +36,20 @@ public class ItemService {
                 .build());
         }
     }
+
+    public void createMondayItem (Long groupId, String name, String idInTool) {
+        Groups group = groupService.getGroupById(groupId);
+
+        Items item = itemRepository.save(Items.builder()
+            .toolType(ToolType.MONDAY)
+            .name(name)
+            .group(group)
+            .build());
+
+        mondayItemRepository.save(MondayItems.builder()
+            .item_id(item.getId())
+            .idInTool(idInTool)
+            .item(item)
+            .build());
+    }
 }

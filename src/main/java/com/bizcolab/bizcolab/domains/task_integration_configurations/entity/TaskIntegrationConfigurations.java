@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,8 +26,15 @@ public class TaskIntegrationConfigurations {
     @Enumerated(EnumType.STRING)
     private ToolType toolType;
 
+    @Column(insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime lastUpdatedAt;
+
     @Builder
     public TaskIntegrationConfigurations (ToolType toolType) {
         this.toolType = toolType;
+    }
+
+    public void updateLastUpdatedAt(LocalDateTime lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
     }
 }

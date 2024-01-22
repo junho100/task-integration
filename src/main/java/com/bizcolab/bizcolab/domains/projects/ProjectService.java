@@ -53,4 +53,31 @@ public class ProjectService {
 
         return project.get();
     }
+
+    public boolean checkIsExistsByIdInTool(String idInTool) {
+        return mondayProjectRepository.existsByIdInTool(idInTool);
+    }
+
+    public void createMondayProject(String idInTool, String name) {
+        Projects project = projectRepository.save(
+            Projects.builder()
+            .name(name)
+            .toolType(ToolType.MONDAY)
+            .build());
+
+        mondayProjectRepository.save(MondayProjects.builder()
+            .idInTool(idInTool)
+            .project(project)
+            .build());
+    }
+
+    public Projects getProjectByIdInTool(String idInTool) {
+        Optional<MondayProjects> mondayProject = mondayProjectRepository.findByIdInTool(idInTool);
+
+        if (!mondayProject.isPresent()) {
+            throw new BaseException(BaseExceptionStatus.PROJECT_NOT_FOUND);
+        }
+
+        return mondayProject.get().getProject();
+    }
 }

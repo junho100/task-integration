@@ -6,6 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum MondayQuery {
-    BOARDS_AND_ITEMS_WITH_GROUP("query { boards { id name groups { id title } items_page { items { id name group { id } } } } }");
+    BOARDS_ITEMS_GROUP("query { boards { id name updated_at groups { id title } items_page (query_params : {order_by : {column_id : \"__last_updated__\", direction : desc}}) { items { id name updated_at group { id title } } } } }");
     private String query;
 }

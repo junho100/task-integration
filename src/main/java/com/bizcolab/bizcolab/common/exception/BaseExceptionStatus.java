@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum BaseExceptionStatus {
+    INVALID_DATE_FORMAT(HttpStatus.BAD_REQUEST, "invalid date format."),
     GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "group not found."),
     PROJECT_NOT_FOUND(HttpStatus.NOT_FOUND, "project not found."),
     NOT_DEV_YET(HttpStatus.BAD_REQUEST,"not yet."),

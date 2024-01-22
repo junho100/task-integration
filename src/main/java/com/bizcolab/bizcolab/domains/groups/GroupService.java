@@ -60,4 +60,35 @@ public class GroupService {
 
         return group.get();
     }
+
+    public boolean checkIsExistsByIdInTool(String idInTool) {
+        return mondayGroupRepository.existsByIdInTool(idInTool);
+    }
+
+    public void createMondayGroup(String idInTool, String name, Long projectId) {
+        Projects project = projectService.getProjectById(projectId);
+
+        Groups group = groupRepository.save(Groups.builder()
+            .toolType(ToolType.MONDAY)
+            .name(name)
+            .toolType(ToolType.MONDAY)
+            .project(project)
+            .build());
+
+        mondayGroupRepository.save(MondayGroups.builder()
+            .group_id(group.getId())
+            .idInTool(idInTool)
+            .group(group)
+            .build());
+    }
+
+    public Groups getGroupByIdInTool(String idInTool) {
+        Optional<MondayGroups> mondayGroup = mondayGroupRepository.findByIdInTool(idInTool);
+
+        if (!mondayGroup.isPresent()) {
+            throw new BaseException(BaseExceptionStatus.GROUP_NOT_FOUND);
+        }
+
+        return mondayGroup.get().getGroup();
+    }
 }

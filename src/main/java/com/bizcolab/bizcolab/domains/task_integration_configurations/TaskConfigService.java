@@ -7,7 +7,11 @@ import com.bizcolab.bizcolab.domains.monday.MondayService;
 import com.bizcolab.bizcolab.domains.task_integration_configurations.entity.MondayIntegrationConfigurations;
 import com.bizcolab.bizcolab.domains.task_integration_configurations.entity.TaskIntegrationConfigurations;
 import com.bizcolab.bizcolab.domains.task_integration_configurations.model.command.CreateTaskIntegrationConfigCommand;
+import com.bizcolab.bizcolab.domains.task_integration_configurations.model.dto.GetMondayApiKeyWithLastUpdatedAtDto;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Service;
@@ -70,5 +74,24 @@ public class TaskConfigService {
         }
 
         return configuration.get().getApiKey();
+    }
+
+    public List<GetMondayApiKeyWithLastUpdatedAtDto> getMondayApiKeyWithLastUpdatedAt() {
+        List<MondayIntegrationConfigurations> mondayIntegrationConfigurations = mondayIntegrationConfigurationsRepository.findAll();
+        return mondayIntegrationConfigurations.stream().map(dto -> GetMondayApiKeyWithLastUpdatedAtDto.builder()
+            .apiKey(dto.getApiKey())
+            .lastUpdatedAt(dto.getConfigurations().getLastUpdatedAt())
+            .configId(dto.getConfigurations().getId())
+            .build()).collect(Collectors.toList());
+    }
+
+    public void updateLastUpdatedAt(Long configId, LocalDateTime targetTime) {
+        Optional<TaskIntegrationConfigurations> taskIntegrationConfigurations = taskIntegrationConfigurationRepository.findById(configId);
+
+        if (taskIntegrationConfigurations.isEmpty()) {
+            throw new BaseException(BaseExceptionStatus.CONFIG_NOT_FOUND);
+        }
+
+        taskIntegrationConfigurations.get().updateLastUpdatedAt(targetTime);
     }
 }

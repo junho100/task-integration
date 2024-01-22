@@ -6,6 +6,7 @@ import com.bizcolab.bizcolab.domains.projects.model.command.CreateMondayGroupCom
 import com.bizcolab.bizcolab.domains.projects.model.command.CreateMondayProjectCommand;
 import com.bizcolab.bizcolab.domains.projects.model.dto.CreateMondayProjectDto;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,15 +64,16 @@ public class MondayGetBoardsAndItemsWithGroupsRes {
     }
 
     @Getter
-    private static class Data {
+    public static class Data {
         private List<Board> boards;
     }
     @Getter
-    private static class Board {
+    public static class Board {
         private String id;
         private String name;
         private List<Group> groups;
         private ItemPage items_page;
+        private String updated_at;
 
         private static CreateMondayProjectCommand toCreateMondayProjectCommand(Board board) {
             return CreateMondayProjectCommand.builder()
@@ -81,7 +83,7 @@ public class MondayGetBoardsAndItemsWithGroupsRes {
         }
     }
     @Getter
-    private static class Group {
+    public static class Group {
         private String id;
         private String title;
 
@@ -94,17 +96,19 @@ public class MondayGetBoardsAndItemsWithGroupsRes {
         }
     }
     @Getter
-    private static class ItemPage {
+    public static class ItemPage {
         private List<Item> items;
     }
     @Getter
-    private static class Item {
+    public static class Item {
         private String id;
         private String name;
         private GroupWithOnlyId group;
+        private String updated_at;
     }
     @Getter
-    private static class GroupWithOnlyId {
+    public static class GroupWithOnlyId {
         private String id;
+        private String title;
     }
 }
